@@ -133,10 +133,10 @@ def test_adblock_rule_for_a_parent_covers_subdomains_but_hosts_line_does_not(
     build_gold(spark)
 
     assert current(spark)["stats.ads.com"] == ("ads_and_trackers", ["feed_a", "feed_c"], ["feed_a"], "medium")
-    not_listed = lookup_domain(spark, "Deep.X.Ads.com")
+    not_listed = lookup_domain(spark, "Deep.X.Ads.com").first()
     answer = (not_listed.harmful, not_listed.sources, not_listed.trust, not_listed.listed_as)
     assert answer == (True, ["feed_c"], "low", ["ads.com"])
-    assert lookup_domain(spark, "x.tracker.com").harmful is False
+    assert lookup_domain(spark, "x.tracker.com").first().harmful is False
 
 
 def test_lookup_domain_gives_the_same_answer_as_domain_current(spark: SparkSession, load_snapshot: Callable):
@@ -146,5 +146,5 @@ def test_lookup_domain_gives_the_same_answer_as_domain_current(spark: SparkSessi
     build_gold(spark)
 
     for domain, row_in_domain_current in current(spark).items():
-        answer = lookup_domain(spark, domain)
+        answer = lookup_domain(spark, domain).first()
         assert (answer.category, answer.sources, answer.fresh_sources, answer.trust) == row_in_domain_current

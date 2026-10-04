@@ -1,6 +1,6 @@
 """Gold: views and tables built from silver on every run."""
 
-from pyspark.sql import Row, SparkSession
+from pyspark.sql import DataFrame, SparkSession
 
 from threat_feeds.feeds import FEEDS
 from threat_feeds.tables import read_sql_file
@@ -19,10 +19,10 @@ def build_gold(spark: SparkSession) -> None:
         spark.sql(select).write.mode("overwrite").option("overwriteSchema", "true").saveAsTable(table)
 
 
-def lookup_domain(spark: SparkSession, domain: str) -> Row:
+def lookup_domain(spark: SparkSession, domain: str) -> DataFrame:
     """Latest answer for any name, including subdomains no feed lists but a ||parent^ rule covers."""
     query = read_sql_file("domain_lookup.sql")
-    return spark.sql(query, args={"domain": domain}).first()
+    return spark.sql(query, args={"domain": domain})
 
 
 def write_feed_rules(spark: SparkSession) -> None:

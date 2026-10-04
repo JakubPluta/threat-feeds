@@ -74,8 +74,7 @@ display(spark.table("domain_current").orderBy("domain"))
 
 # COMMAND ----------
 
-answer = lookup_domain(spark, dbutils.widgets.get("domain"))
-display(spark.createDataFrame([answer]))
+display(lookup_domain(spark, dbutils.widgets.get("domain")))
 
 # COMMAND ----------
 
