@@ -1,4 +1,11 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "6"
+# dependencies = [
+#   "..",
+# ]
+# ///
 # MAGIC %md
 # MAGIC # Harmful-domain feeds
 # MAGIC - `mode=replay`: empties the tables and reloads the snapshots committed in `snapshots/`.

@@ -1,0 +1,19 @@
+{
+  "feed": "feed_c",
+  "url": "https://badmojr.gitlab.io/1hosts/Lite/adblock.txt",
+  "started_at": "2026-10-04T12:04:49.774626Z",
+  "http_status": 200,
+  "headers": {
+    "Cache-Control": "max-age=600",
+    "Content-Length": "2040193",
+    "Content-Type": "text/plain; charset=utf-8",
+    "Etag": "\"20909063cd834d99636dd0f65d5f529dc4c73a7a7f038b509ef1f1c7412b4d9b\"",
+    "Expires": "Sun, 04 Oct 2026 12:14:50 UTC",
+    "Last-Modified": "Sun, 12 May 2024 06:45:18 GMT",
+    "Permissions-Policy": "interest-cohort=()",
+    "Vary": "Origin",
+    "X-Request-Id": "01M43CTWMV4EN2P0E2SDKJ3GB4",
+    "Date": "Sun, 04 Oct 2026 12:04:50 GMT"
+  },
+  "error": null
+}
