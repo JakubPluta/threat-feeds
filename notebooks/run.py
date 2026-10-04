@@ -3,6 +3,14 @@
 # MAGIC # Harmful-domain feeds
 # MAGIC - `mode=replay`: empties the tables and reloads the snapshots committed in `snapshots/`.
 # MAGIC - `mode=live`: downloads the four feeds into the Volume as a new snapshot and loads it.
+# MAGIC
+# MAGIC Run the next cell first to show the parameters at the top, pick them, then Run all.
+
+# COMMAND ----------
+
+dbutils.widgets.text("catalog", "workspace")
+dbutils.widgets.dropdown("mode", "replay", ["replay", "live"])
+dbutils.widgets.text("domain", "a.b.doubleclick.net")  # used by the lookup cell
 
 # COMMAND ----------
 
@@ -20,10 +28,6 @@ from threat_feeds import pipeline
 from threat_feeds.checks import IS_LATEST_SNAPSHOT, check_latest_snapshot, domain_changes, reconciliation_counts
 from threat_feeds.domains import lookup_domain
 from threat_feeds.settings import Settings
-
-dbutils.widgets.text("catalog", "workspace")
-dbutils.widgets.dropdown("mode", "replay", ["replay", "live"])
-dbutils.widgets.text("domain", "a.b.doubleclick.net")  # used by the lookup cell
 
 settings = Settings(
     catalog=dbutils.widgets.get("catalog"),
