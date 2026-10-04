@@ -1,0 +1,14 @@
+HTTP/1.1 200 Connection Established
+
+HTTP/2 200 
+cache-control: max-age=600
+content-type: text/plain; charset=utf-8
+etag: "20909063cd834d99636dd0f65d5f529dc4c73a7a7f038b509ef1f1c7412b4d9b"
+expires: Sat, 03 Oct 2026 07:06:22 UTC
+last-modified: Sun, 12 May 2024 06:45:18 GMT
+permissions-policy: interest-cohort=()
+vary: Origin
+x-request-id: 01M408SBPATSK4RKSFG5WVCSTJ
+content-length: 2040193
+date: Sat, 03 Oct 2026 06:56:22 GMT
+
