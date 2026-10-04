@@ -22,11 +22,51 @@ Compared with the curl download from 2026-10-03:
 
 ### Result
 
-TODO
+Snapshot `2026-10-04T120448Z`, committed in `snapshots/`.
+
+| Feed | sha256 | Lines | Accepted | Distinct | Published | Expected? |
+|---|---|---|---|---|---|---|
+| feed_a | `c90ebedf…1a` | 79,056 | 72,233 | 72,233 | 2026-10-02 19:58 | yes, same file, no release since |
+| feed_b | `673bacbc…2c` | 17,892 | 3,193 | 3,193 | 2026-10-04 00:06 | yes, new file; 14,693 IPs (82%) |
+| feed_c | `6179b450…e8` | 89,840 | 89,822 | 89,822 | 2024-05-12 06:39 | yes, same file |
+| feed_d | `061f7953…8e` | 1,738 | 1,707 | 1,645 | none | yes, same file |
+
+- All four accepted, every `lines_add_up` true.
+- 158,109 domains in `domain_current`, `adds_up` true. 3,235 malware: feed_b's 3,193 plus 42 names other feeds list
+  under one of feed_b's `||parent^` rules.
+
+| category | trust | domains |
+|---|---|---|
+| ads_and_trackers | low | 83,013 |
+| ads_and_trackers | medium | 71,861 |
+| malware | high | 372 |
+| malware | medium | 2,863 |
+
+- `domain_changes`: 158,109 `added`, as expected on a first snapshot.
+- feed_b between the 2026-10-03 curl download and this run: 31 domains added, 83 removed, 3,162 kept.
+
+What didn't go as expected: the notebook failed at the lookup cell (`CANNOT_DETERMINE_TYPE`, building a DataFrame
+from a row whose `fresh_sources` was an empty list). The tables were already written, so the data was fine, but the
+check cell after it never ran. Fixed by returning the lookup as a DataFrame; the checks above come from a replay of
+the committed snapshot, which gives the same tables.
 
 ## Run 2
 
-TODO: expectations before the run.
+### Expected
+
+The next day, against run 1:
+
+- feed_c and feed_d: same sha256 again.
+- feed_b: a new file, roughly 3,100–3,300 domains, accepted (the cut-off line is 80% of 3,193 = 2,554). From one
+  day of data: a few dozen domains added and up to about a hundred removed.
+- feed_a: either the same file, or a new release (they come every 2–5 days, the last was 2026-10-02) within about
+  1% of 72,233 domains.
+- `previous_accepted_lines` filled in for all four; nothing rejected, the check passes.
+- `domain_changes`: only feed_b's churn if feed_a hasn't released, i.e. tens to about a hundred `added` and
+  `removed`, almost all malware, plus a few `category_changed` for names also in feed_a. If feed_a released, a few
+  hundred more on the ads side. No `trust_changed` from age: feed_b is republished daily and feed_a stays under 30
+  days.
+- Domains that didn't change keep their `answer_since` from run 1; `domain_history` grows only by the changes.
 
 ## Broken feed
 
