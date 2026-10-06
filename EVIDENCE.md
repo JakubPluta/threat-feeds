@@ -68,6 +68,42 @@ The next day, against run 1:
   days.
 - Domains that didn't change keep their `answer_since` from run 1; `domain_history` grows only by the changes.
 
+### Result
+
+Snapshot `2026-10-05T162535Z`, committed in `snapshots/`.
+
+| Feed | sha256 | Accepted | Previous accepted | Published | Expected? |
+|---|---|---|---|---|---|
+| feed_a | `c90ebedf…1a` | 72,233 | 72,233 | 2026-10-02 19:58 | yes, same file: no release in 3 days |
+| feed_b | `2672fe75…3b` | 3,130 | 3,193 | 2026-10-05 12:07 | yes, new file, 98% of the previous one |
+| feed_c | `6179b450…e8` | 89,822 | 89,822 | 2024-05-12 06:39 | yes, same file |
+| feed_d | `061f7953…8e` | 1,707 | 1,707 | none | yes, same file |
+
+- Nothing rejected, every `lines_add_up` true, the check passes.
+- 158,044 domains in `domain_current` (166,830 listings), `adds_up` true.
+
+`domain_changes`:
+
+| change | domains | |
+|---|---|---|
+| added | 57 | all malware, new in feed_b |
+| removed | 122 | all malware, gone from feed_b |
+| category_changed | 24 | 13 ads → malware (feed_b started listing a feed_a domain), 11 malware → ads (the reverse) |
+
+- No `sources_changed` or `trust_changed`, and nothing on the ads side, since feed_a didn't release.
+- 157,963 domains still have `answer_since` = run 1; 81 (57 added + 24 changed) start at run 2.
+- `domain_history`: 158,190 rows = 158,044 current + 146 closed (122 removed + 24 changed category).
+
+| category | trust | run 1 | run 2 |
+|---|---|---|---|
+| ads_and_trackers | low | 83,013 | 83,013 |
+| ads_and_trackers | medium | 71,861 | 71,859 |
+| malware | high | 372 | 374 |
+| malware | medium | 2,863 | 2,798 |
+
+Against the expectation: everything held except the size of feed_b's churn. 122 removed is a bit more than "up to
+about a hundred"; one earlier day (2026-10-03 → 2026-10-04) isn't enough to know the normal range.
+
 ## Broken feed
 
 TODO. One feed's file replaced by an HTML error page. Expected: `not_a_text_list`, the feed keeps its previous file.
